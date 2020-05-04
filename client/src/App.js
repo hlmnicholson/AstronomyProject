@@ -1,20 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
-import Customers from './components/customers/customers.js';
+import AstronomyContainer from './components/AstronomyContainer.js';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      <h3><Customers /></h3>
-      </header>
-    </div>
-  );
+
+class App extends Component {
+  render() {
+    return (
+      <>
+      <h1>APOD: Astronomy Picture of the Day</h1>
+      <AstronomyContainer />
+      </>
+    );
+  }
 }
 
 export default App;

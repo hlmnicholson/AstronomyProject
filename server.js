@@ -1,26 +1,29 @@
 const express = require('express');
 const fetch = require('node-fetch');
-
 const app = express();
 
-app.get('/api/customers', (req, res) => {
-    const customers = [
-        {id: 1, firstName: 'John', lastName: 'Doe'},
-        {id: 2, firstName: 'Billy', lastName: 'Smith'},
-        {id: 3, firstName: 'Paul', lastName: 'Jones'},
-    ];
-    
-    res.json(customers);
-});
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-app.get('/api/apollo11', async (req, res) => {
-    const api_url = 'https://images-api.nasa.gov/search?q=apollo%2011';
-    const fetchResponse = await fetch(api_url);
+const api_key = 'sZv4yD0FxAA2xgRct5FcPi0GMpodUR7O3hIYIwYL';
+
+app.get('/api', async (req, res, next) => {
+    let url = `https://api.nasa.gov/planetary/apod?api_key=${api_key}`;
+    const fetchResponse = await fetch(url);
     const json = await fetchResponse.json();
-    console.log(json.collection.href);
-    res.json(json);
+    res.json(json)
 });
 
+app.get('/api/:date', async (req, res, next) => {
+    const input = req.params.date;
+    console.log(input);
+    const date = `date=${input}&` ;
+    let url = `https://api.nasa.gov/planetary/apod?${date}api_key=${api_key}`;
+    const fetchResponse = await fetch(url);
+    const json = await fetchResponse.json();
+    res.json(json)
+});
 
 const port = 5000;
 //default for react is 3000
